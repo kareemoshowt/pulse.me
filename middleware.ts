@@ -8,6 +8,21 @@ export async function middleware(request: NextRequest) {
     },
   })
 
+  // Demo mode bypass — add ?demo=true to any URL or set the demo cookie
+  const demoParam = request.nextUrl.searchParams.get('demo')
+  const demoCookie = request.cookies.get('demo_mode')?.value
+
+  if (demoParam === 'true') {
+    // Set demo cookie and continue
+    response = NextResponse.next({ request: { headers: request.headers } })
+    response.cookies.set('demo_mode', 'true', { path: '/', maxAge: 60 * 60 * 24 })
+    return response
+  }
+
+  if (demoCookie === 'true') {
+    return response
+  }
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
