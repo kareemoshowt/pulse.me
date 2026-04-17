@@ -10,43 +10,40 @@ const config: Config = {
     extend: {
       colors: {
         pulse: {
-          bg: '#0f0f12',
-          surface: '#1a1a24',
+          bg: '#000000',
+          surface: '#0a0a0a',
+          card: '#111111',
           border: 'rgba(255,255,255,0.06)',
-          amber: '#EF9F27',
-          blue: '#378ADD',
-          green: '#1D9E75',
-          pink: '#D4537E',
-          gray: '#5F5E5A',
+          amber: '#F5C542',
+          blue: '#4A9EFF',
+          green: '#00C805',
+          pink: '#FF6B8A',
+          purple: '#A78BFA',
+          gray: '#888888',
         },
         category: {
-          m1: '#EF9F27',
-          m2: '#378ADD',
-          m3: '#1D9E75',
-          m4: '#D4537E',
-          m5: '#5F5E5A',
-        }
+          m1: '#F5C542',
+          m2: '#4A9EFF',
+          m3: '#00C805',
+          m4: '#FF6B8A',
+          m5: '#A78BFA',
+        },
       },
       fontFamily: {
-        sans: ['SF Pro Display', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+      },
+      letterSpacing: {
+        tightest: '-0.04em',
+        tighter: '-0.03em',
       },
       animation: {
-        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-        'slide-up': 'slide-up 0.3s ease-out',
-        'fade-in': 'fade-in 0.2s ease-out',
+        'fade-up': 'fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both',
+        'pulse-slow': 'pulse 3s ease-in-out infinite',
       },
       keyframes: {
-        'pulse-glow': {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.7' },
-        },
-        'slide-up': {
-          '0%': { transform: 'translateY(10px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        'fade-in': {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+        'fade-up': {
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },
     },

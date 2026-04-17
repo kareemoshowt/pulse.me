@@ -2,14 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 :root {
-  --pulse-bg: #0f0f12;
-  --pulse-surface: #1a1a24;
-  --pulse-amber: #EF9F27;
-  --pulse-blue: #378ADD;
-  --pulse-green: #1D9E75;
-  --pulse-pink: #D4537E;
-  --pulse-gray: #5F5E5A;
+  --bg: #000000;
+  --bg-elevated: #0a0a0a;
+  --bg-card: #111111;
+  --bg-card-hover: #161616;
+  --border: rgba(255,255,255,0.06);
+  --border-strong: rgba(255,255,255,0.12);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255,255,255,0.5);
+  --text-muted: rgba(255,255,255,0.25);
+
+  /* Brand accent — Pulse Gold */
+  --pulse-amber: #F5C542;
+  --pulse-amber-dim: rgba(245,197,66,0.12);
+  --pulse-blue: #4A9EFF;
+  --pulse-green: #00C805;
+  --pulse-green-dim: rgba(0,200,5,0.1);
+  --pulse-pink: #FF6B8A;
+  --pulse-gray: #888888;
+
+  /* Category colors — richer, more intentional */
+  --cat-m1: #F5C542;
+  --cat-m2: #4A9EFF;
+  --cat-m3: #00C805;
+  --cat-m4: #FF6B8A;
+  --cat-m5: #A78BFA;
 }
 
 * {
@@ -22,100 +42,173 @@ html {
 }
 
 body {
-  background: var(--pulse-bg);
-  color: #fff;
-  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+
+/* ── Animations ─────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* Animations */
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
 }
+
+@keyframes star-pop {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  60%  { transform: scale(1.25) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes check-draw {
+  from { stroke-dashoffset: 24; }
+  to   { stroke-dashoffset: 0; }
+}
+
+.fade-up { animation: fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
 .shimmer {
   background: linear-gradient(
     90deg,
     rgba(255,255,255,0.03) 25%,
-    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.07) 50%,
     rgba(255,255,255,0.03) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
 
-/* Category colors */
-.cat-m1 { --cat-color: #EF9F27; }
-.cat-m2 { --cat-color: #378ADD; }
-.cat-m3 { --cat-color: #1D9E75; }
-.cat-m4 { --cat-color: #D4537E; }
-.cat-m5 { --cat-color: #5F5E5A; }
-
-/* Star animation */
-@keyframes star-pop {
-  0% { transform: scale(0); opacity: 0; }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1); opacity: 1; }
-}
-
 .star-earned {
-  animation: star-pop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  animation: star-pop 0.45s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-/* Glass effect */
+/* ── Layout Primitives ───────────────────────── */
 .glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
 
-/* Button styles */
-.btn-primary {
-  @apply bg-pulse-amber text-black font-semibold px-6 py-3 rounded-xl transition-all;
-  @apply hover:bg-opacity-90 active:scale-[0.98];
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
 }
+
+.card-hover {
+  transition: background 0.2s, border-color 0.2s;
+}
+.card-hover:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-strong);
+}
+
+/* ── Buttons ─────────────────────────────────── */
+.btn-primary {
+  @apply inline-flex items-center justify-center font-semibold transition-all;
+  background: var(--pulse-amber);
+  color: #000;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+.btn-primary:hover  { filter: brightness(1.08); }
+.btn-primary:active { transform: scale(0.97); }
 
 .btn-secondary {
-  @apply bg-white/5 border border-white/10 text-white px-6 py-3 rounded-xl transition-all;
-  @apply hover:bg-white/10 active:scale-[0.98];
+  @apply inline-flex items-center justify-center font-medium transition-all;
+  background: transparent;
+  color: var(--text-primary);
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  border: 1px solid var(--border-strong);
+  letter-spacing: -0.01em;
 }
+.btn-secondary:hover  { background: rgba(255,255,255,0.05); }
+.btn-secondary:active { transform: scale(0.97); }
 
-/* Input styles */
+/* ── Form Inputs ─────────────────────────────── */
 .input {
-  @apply w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white;
-  @apply placeholder:text-white/30 focus:outline-none focus:border-pulse-amber/50;
-  @apply transition-colors;
+  @apply w-full text-white transition-colors;
+  background: #111;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+}
+.input::placeholder { color: var(--text-muted); }
+.input:focus {
+  outline: none;
+  border-color: var(--pulse-amber);
+  box-shadow: 0 0 0 3px var(--pulse-amber-dim);
 }
 
-/* Card styles */
-.card {
-  @apply bg-white/[0.02] border border-white/[0.06] rounded-2xl;
+/* ── Stat number display (Robinhood-style) ───── */
+.stat-number {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
-/* Safe area padding for mobile */
+.stat-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ── Progress bar ────────────────────────────── */
+.progress-track {
+  height: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 1px;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Safe area ───────────────────────────────── */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .pb-safe {
-    padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
   }
+}
+
+/* ── Category color classes ──────────────────── */
+.cat-m1 { --cat-color: var(--cat-m1); }
+.cat-m2 { --cat-color: var(--cat-m2); }
+.cat-m3 { --cat-color: var(--cat-m3); }
+.cat-m4 { --cat-color: var(--cat-m4); }
+.cat-m5 { --cat-color: var(--cat-m5); }
+
+/* ── Divider ─────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--border);
 }
