@@ -4,9 +4,10 @@ import { usePulseStore } from '@/lib/store'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 export default function Header() {
-  const { profile } = usePulseStore()
+  const { profile, isGuest } = usePulseStore()
   const router = useRouter()
 
   const handleSignOut = async () => {
@@ -51,23 +52,50 @@ export default function Header() {
             </motion.div>
           )}
 
-          {/* Avatar */}
-          <button
-            onClick={handleSignOut}
-            className="relative w-9 h-9 rounded-full overflow-hidden flex items-center justify-center text-sm font-semibold"
-            style={{ background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)' }}
-            title="Sign out"
-          >
-            {profile?.avatar_url ? (
-              <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
-            ) : (
-              <span className="text-white/70">
-                {profile?.full_name?.charAt(0).toUpperCase() || profile?.email?.charAt(0).toUpperCase() || '?'}
-              </span>
-            )}
-          </button>
+          {/* Avatar or Guest CTA */}
+          {isGuest ? (
+            <Link
+              href="/auth"
+              className="text-xs font-semibold px-3 py-1.5 rounded-full transition-all"
+              style={{
+                background: 'rgba(245,197,66,0.1)',
+                border: '1px solid rgba(245,197,66,0.25)',
+                color: 'var(--pulse-amber)',
+              }}
+            >
+              Sign in
+            </Link>
+          ) : (
+            <button
+              onClick={handleSignOut}
+              className="relative w-9 h-9 rounded-full overflow-hidden flex items-center justify-center text-sm font-semibold"
+              style={{ background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)' }}
+              title="Sign out"
+            >
+              {profile?.avatar_url ? (
+                <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-white/70">
+                  {profile?.full_name?.charAt(0).toUpperCase() || profile?.email?.charAt(0).toUpperCase() || '?'}
+                </span>
+              )}
+            </button>
+          )}
         </div>
       </div>
+
+      {/* Guest save nudge */}
+      {isGuest && (
+        <div className="mt-2 flex items-center gap-1.5">
+          <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+          <span className="text-[11px] text-white/25">
+            Saving locally ·{' '}
+            <Link href="/auth" className="text-white/40 hover:text-white/60 underline underline-offset-2 transition-colors">
+              Sign in to sync across devices
+            </Link>
+          </span>
+        </div>
+      )}
 
       {/* XP progress bar */}
       <div className="mt-3">

@@ -33,14 +33,15 @@ export default function Home() {
         </p>
 
         {/* CTA */}
-        <div className="flex flex-col sm:flex-row gap-3 w-full max-w-sm mb-20">
-          <Link href="/auth" className="btn-primary text-center flex-1">
-            Start for free
+        <div className="flex flex-col gap-3 w-full max-w-xs mb-4">
+          <Link href="/dashboard" className="btn-primary text-center w-full">
+            Start tracking — no sign up needed
           </Link>
-          <Link href="/dashboard?demo=true" className="btn-secondary text-center flex-1">
-            See demo
+          <Link href="/auth" className="text-center text-sm text-white/35 hover:text-white/60 transition-colors">
+            Have an account? Sign in to sync →
           </Link>
         </div>
+        <p className="text-xs text-white/20 mb-16">Your progress is saved locally in your browser</p>
 
         {/* Category pills */}
         <div className="flex flex-wrap justify-center gap-2 max-w-lg">
